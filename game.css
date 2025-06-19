@@ -41,11 +41,15 @@ border-radius: 2rem;
     margin: auto;
     width: 30%;
 }
+.strtbtn{
+      width: 6rem;
+    height: 3rem;
+
+}
 
 
 
-
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 580px) {
 .boxs{
 border: 4px solid black;
 height:100px;
