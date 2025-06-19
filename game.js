@@ -5,81 +5,72 @@ let started = false;
 let level = 0;
 let h3 = document.querySelector("h3");
 
-
 document.addEventListener("keypress", function () {
-    if (started == false) {
-        console.log("game satred");
+    if (!started) {
+        console.log("Game started");
         started = true;
         levelup();
     }
 });
 
-
 function btnflash(btn) {
     btn.classList.add("flash");
     setTimeout(function () {
-        btn.classList.remove("flash")
-    },500);
-};
-
+        btn.classList.remove("flash");
+    }, 500);
+}
 
 function levelup() {
+    userseq = [];
     level++;
-    h3.innerText = `level ${level}`;
-
+    h3.innerText = `Level ${level}`;
 
     let rdmidx = Math.floor(Math.random() * 4);
-    let rdmcle = btns[rdmidx];
-    let rdmbtn = document.querySelector(`.${rdmcle}`);
+    let rdmclr = btns[rdmidx];
+    let rdmbtn = document.querySelector(`.${rdmclr}`);
 
-    // console.log(rdmbtn);
-    // console.log(rdmcle);
-    // console.log(rdmidx);
-    gameseq.push(rdmcle);
-    console.log(gameseq)
+    gameseq.push(rdmclr);
+    console.log("Game Sequence:", gameseq);
     btnflash(rdmbtn);
-
-};
-// function btnpress() {
-//     console.log("button was pressed");
-//     this.classList.add("flash");
-//     setTimeout(() => {
-//         this.classList.remove("flash");
-//     }, 500);
-// }
-
+}
 
 function btnpress() {
- let btnn=this;
- btnflash(btnn);
- 
- userclr = btnn.getAttribute("id");
- console.log(userclr);
- userseq.push(userclr);
- checkns();
+    let btnn = this;
+    btnflash(btnn);
 
-};
+    let userclr = btnn.getAttribute("id");
+    console.log("User clicked:", userclr);
+    userseq.push(userclr);
+    checkns(userseq.length - 1);
+}
+
+function checkns(currentIdx) {
+    if (userseq[currentIdx] === gameseq[currentIdx]) {
+        if (userseq.length === gameseq.length) {
+            // User completed the sequence correctly
+            setTimeout(levelup, 1000);
+        }
+    } else {
+        // Wrong click — game over
+        h3.innerText = `Game Over! Press any key to restart.`;
+        console.log("Game Sequence:", gameseq);
+        console.log("User Sequence:", userseq);
+        document.body.classList.add("game-over");
+        setTimeout(() => {
+            document.body.classList.remove("game-over");
+        }, 200);
+        resetGame();
+    }
+}
+
+function resetGame() {
+    started = false;
+    level = 0;
+    gameseq = [];
+    userseq = [];
+}
 
 let allbtns = document.querySelectorAll(".btn");
-
-for( btn of allbtns){
+for (let btn of allbtns) {
     btn.addEventListener("click", btnpress);
-};
-
-
-
-function checkns(){
-console.log(level);
-let idx= level-1;
-if(userseq[idx] == gameseq[idx]){
-    
-    levelup();
-     console.log(`game seq is${gameseq}`);
-    console.log(`user seq is ${userseq}`);
 }
-else{
-    h3.innerText = `Game over`;
-    console.log(`game seq is${gameseq}`);
-    console.log(`user seq is ${userseq}`);
-}
-};
