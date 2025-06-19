@@ -5,6 +5,14 @@ let started = false;
 let level = 0;
 let h3 = document.querySelector("h3");
 
+function forbtn(){
+     if (!started) {
+        console.log("Game started");
+        started = true;
+        levelup();
+    }
+};
+
 document.addEventListener("keypress", function () {
     if (!started) {
         console.log("Game started");
@@ -52,7 +60,7 @@ function checkns(currentIdx) {
         }
     } else {
         // Wrong click — game over
-        h3.innerText = `Game Over! Press any key to restart.`;
+        h3.innerText = `Game Over! Press any key to restart. high score is level:-${level}`;
         console.log("Game Sequence:", gameseq);
         console.log("User Sequence:", userseq);
         document.body.classList.add("game-over");
